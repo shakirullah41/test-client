@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 
 class CompanyStateModel {
   companyRecordList: any[] = [];
+  companyAddresses: any[] = [];
 }
 
 @State<CompanyStateModel>({
@@ -16,10 +17,15 @@ class CompanyStateModel {
 @Injectable()
 export class CompanyState implements NgxsOnInit {
   constructor(private httpService: HttpService) {}
-  ngxsOnInit({ setState }: StateContext<CompanyStateModel>) {
+  ngxsOnInit({ patchState }: StateContext<CompanyStateModel>) {
     this.httpService.getCompanies().subscribe((list: any) => {
-      setState({
+      patchState({
         companyRecordList: list,
+      });
+    });
+    this.httpService.getAddresses().subscribe((list: any) => {
+      patchState({
+        companyAddresses: list,
       });
     });
   }
@@ -27,6 +33,10 @@ export class CompanyState implements NgxsOnInit {
   @Selector()
   static getCompanyRecord(state: CompanyStateModel) {
     return state.companyRecordList;
+  }
+  @Selector()
+  static getAddresses(state: CompanyStateModel) {
+    return state.companyAddresses;
   }
 
   @Action(CompanyAction.GET)

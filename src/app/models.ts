@@ -22,6 +22,7 @@ export interface Address {
   county_code: String;
   latitude: String;
   longitude: String;
+  company: Company;
 }
 
 export interface Contact {

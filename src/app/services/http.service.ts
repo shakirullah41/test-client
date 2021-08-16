@@ -12,4 +12,9 @@ export class HttpService {
       'http://localhost:7000/api/company'
     );
   }
+  getAddresses(): Observable<APIResponse<Company>> {
+    return this.http.get<APIResponse<Company>>(
+      'http://localhost:7000/api/address'
+    );
+  }
 }
