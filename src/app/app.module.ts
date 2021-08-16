@@ -13,8 +13,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CompanyState } from './store/state/company.state';
 import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MapComponent } from './map/map.component';
 @NgModule({
-  declarations: [AppComponent, CompanyComponent],
+  declarations: [AppComponent, CompanyComponent, MapComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
