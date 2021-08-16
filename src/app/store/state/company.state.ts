@@ -18,16 +18,14 @@ export class CompanyState implements NgxsOnInit {
   constructor(private httpService: HttpService) {}
   ngxsOnInit({ setState }: StateContext<CompanyStateModel>) {
     this.httpService.getCompanies().subscribe((list: any) => {
-      console.log(list);
       setState({
         companyRecordList: list,
       });
     });
-    throw new Error('Method not implemented.');
   }
 
   @Selector()
-  static getCompanyRecord(state: CompanyStateModel): any[] {
+  static getCompanyRecord(state: CompanyStateModel) {
     return state.companyRecordList;
   }
 

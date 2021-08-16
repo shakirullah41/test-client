@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Store, Select } from '@ngxs/store';
 import { CompanyAction } from 'src/app/store/actions/company.action';
+import { selectorOptionsMetaAccessor } from '@ngxs/store/src/utils/selector-utils';
+import { Company } from '../models';
+import { Observable } from 'rxjs';
+import { CompanyState } from '../store/state/company.state';
 
 @Component({
   selector: 'app-company',
@@ -8,13 +12,14 @@ import { CompanyAction } from 'src/app/store/actions/company.action';
   styleUrls: ['./company.component.css'],
 })
 export class CompanyComponent implements OnInit {
+  public company: Array<Company> = [];
+  @Select(CompanyState.getCompanyRecord)
+  companyList$!: Observable<Company[]>;
   constructor(private store: Store) {
-    this.store.dispatch(new CompanyAction.GET()).subscribe((companyList) => {
-      console.log(companyList);
+    this.companyList$.subscribe((c) => {
+      this.company = c;
     });
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 }

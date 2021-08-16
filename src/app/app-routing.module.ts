@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CompanyComponent } from './company/company.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: 'company', pathMatch: 'full' },
+  { path: '', redirectTo: 'company', pathMatch: 'full' },
   {
     path: 'company',
     component: CompanyComponent,
