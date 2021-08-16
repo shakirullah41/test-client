@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { Address } from '../models';
+import { Address, Marker } from '../models';
 import { Observable } from 'rxjs/internal/Observable';
 import { CompanyState } from '../store/state/company.state';
+import { MapAction } from '../store/actions/map.action';
 import { Select, Store } from '@ngxs/store';
 
 @Component({
@@ -13,14 +14,6 @@ import { Select, Store } from '@ngxs/store';
 export class MapComponent implements AfterViewInit {
   private map: any;
   public addresses: any = [];
-
-  private locations: any = [
-    ['LOCATION_1', 11.8166, 122.0942],
-    ['LOCATION_2', 11.9804, 121.9189],
-    ['LOCATION_3', 10.7202, 122.5621],
-    ['LOCATION_4', 11.3889, 122.6277],
-    ['LOCATION_5', 10.5929, 122.6325],
-  ];
 
   private initMap(): void {
     console.log('called 1');
@@ -44,16 +37,10 @@ export class MapComponent implements AfterViewInit {
     );
 
     tiles.addTo(this.map);
-    // var marker = L.marker([51.5, -0.09]).addTo(this.map)
-
-    for (var i = 0; i < this.locations.length; i++) {
-      var marker = L.marker([this.locations[i][1], this.locations[i][2]])
-        .bindPopup(this.locations[i][0])
-        .addTo(this.map);
-    }
   }
   @Select(CompanyState.getAddresses)
   addresses$!: Observable<Address[]>;
+
   constructor(private store: Store) {
     console.log('called 2');
     this.addresses$.subscribe((a: any) => {
@@ -74,9 +61,22 @@ export class MapComponent implements AfterViewInit {
       }
     });
   }
-
+  private selectLocation() {
+    this.map.on('click', (e: any) => {
+      var coord = e.latlng;
+      var lat = coord.lat;
+      var long = coord.lng;
+      console.log(
+        'You clicked the map at latitude: ' + lat + ' and longitude: ' + long
+      );
+      this.store.dispatch(new MapAction.AddMarker({ lat, long }));
+      // var mp = new L.Marker([lat, lng]).addTo(this.map);
+      //   alert(mp.getLatLng());
+    });
+  }
   ngAfterViewInit(): void {
     console.log('called 4', this.addresses);
     this.initMap();
+    this.selectLocation();
   }
 }

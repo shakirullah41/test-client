@@ -35,3 +35,7 @@ export interface Contact {
   website: String;
   image: String;
 }
+export interface Marker {
+  lat: String;
+  long: string;
+}

@@ -4,10 +4,12 @@ import { CompanyAction } from '../actions/company.action';
 import { HttpService } from '../../services/http.service';
 import { APIResponse, Company } from 'src/app/models';
 import { Injectable } from '@angular/core';
+import { MapAction } from '../actions/map.action';
 
 class CompanyStateModel {
   companyRecordList: any[] = [];
   companyAddresses: any[] = [];
+  selectedMarker: any[] = [];
 }
 
 @State<CompanyStateModel>({
@@ -37,6 +39,10 @@ export class CompanyState implements NgxsOnInit {
   @Selector()
   static getAddresses(state: CompanyStateModel) {
     return state.companyAddresses;
+  }
+  @Selector()
+  static getselectedMarker(state: CompanyStateModel) {
+    return state.selectedMarker;
   }
 
   @Action(CompanyAction.GET)
@@ -81,5 +87,16 @@ export class CompanyState implements NgxsOnInit {
     patchState({
       companyRecordList: list,
     });
+  }
+
+  @Action(MapAction.AddMarker)
+  setMarker(
+    { getState, patchState }: StateContext<CompanyStateModel>,
+    { payload }: any
+  ) {
+    patchState({
+      selectedMarker: payload,
+    });
+    console.log(getState());
   }
 }
