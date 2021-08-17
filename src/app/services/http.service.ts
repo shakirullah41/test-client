@@ -12,6 +12,12 @@ export class HttpService {
       'http://localhost:7000/api/company'
     );
   }
+  addCompany(payload: any): Observable<APIResponse<Company>> {
+    return this.http.post<APIResponse<Company>>(
+      'http://localhost:7000/api/company',
+      payload
+    );
+  }
   getAddresses(): Observable<APIResponse<Company>> {
     return this.http.get<APIResponse<Company>>(
       'http://localhost:7000/api/address'

@@ -65,22 +65,17 @@ export class CompanyState implements NgxsOnInit {
   ) {
     const list = getState().companyRecordList;
     console.log(action.payload);
-    // IN CASE OF SERVICE CALL
-    // return this.service.addCompany(action.payload)
-    // 	.pipe(
-    // 		tap((company: any) => {
-    // 			list.push(company);
-    // 			ctx.patchState({
-    // 				companyRecordList: list,
-    // 			});
-    // 		}),
-    // 		catchError((errors: any) => {
-    // 			ctx.patchState({
-    // 				// any error hadling on error
-    // 			});
-    // 			throw (errors);
-    // 		})
-    // 	);
+    return this.httpService.addCompany(action.payload).pipe(
+      tap((company: any) => {
+        list.push(company);
+        patchState({
+          companyRecordList: list,
+        });
+      }),
+      catchError((errors: any) => {
+        throw errors;
+      })
+    );
 
     // ONLY FOR STAT MANAGEMENT
     list.push(action.payload);
